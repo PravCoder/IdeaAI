@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Flowchart
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -22,4 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
         print("\nDOES THIS EVERY GET PRINTED"+str(new_user))
         return new_user
     
+class FlowchartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Flowchart
+        fields = ['id', 'name', 'description', 'date_created']  # Fields to include in the serialized output
     

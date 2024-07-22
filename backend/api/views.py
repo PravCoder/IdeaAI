@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import UserSerializer
+from .serializers import UserSerializer, FlowchartSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import User, Flowchart
@@ -29,7 +29,16 @@ def create_flowchart(request):
     return Response(context)
 
 
+@api_view(["GET"])
+def get_user_flowcharts(request):
+    user = request.user
 
+    serialized_flowcharts  =[]
+    for chart in list(user.flowcharts.all()):
+        chart_serializer = FlowchartSerializer(chart)
+        serialized_flowcharts.append(chart_serializer.data)
+
+    return Response({"user_flowcharts":serialized_flowcharts})
 
 
 

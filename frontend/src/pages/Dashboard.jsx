@@ -4,15 +4,16 @@ import "../styles/Dashboard.css";
 import FlowchartList from "../components/FlowchartList";
 
 function Dashboard() {
+    const [flowcharts, setFlowcharts] = useState([]);
     useEffect(() => {
-        console.log('Dashboard component rendered!!');
-    }, []);
-
-    const flowcharts = [
-        { id: '1', name: 'Flowchart 1', description: 'Description of Flowchart 1' },
-        { id: '2', name: 'Flowchart 2', description: 'Description of Flowchart 2' },
-        { id: '3', name: 'Flowchart 3', description: 'Description of Flowchart 3' },
-      ];
+        api.get(`/api/get-user-flowcharts/`)
+            .then(response => {
+                setFlowcharts(response.data.user_flowcharts);  
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }, [])
 
     return (
         <div className="dashboard">
