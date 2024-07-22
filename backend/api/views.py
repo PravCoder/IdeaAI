@@ -3,8 +3,9 @@ from rest_framework import generics
 from .serializers import UserSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import User
+from .models import User, Flowchart
 from rest_framework.response import Response
+from datetime import datetime
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -12,9 +13,20 @@ class CreateUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
+@api_view(["POST"])
+def create_flowchart(request):
+    user = request.user
+    print(request.data)
+    name = request.data["content"]
+    description = request.data["description"]
+    chart = Flowchart(name=name, description=description, date_created=datetime.now())
+    chart.save()
 
+    user.flowcharts.add(chart)
+    user.save()
 
-
+    context = {"msg":"yoooo"}
+    return Response(context)
 
 
 

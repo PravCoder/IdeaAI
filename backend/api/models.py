@@ -12,11 +12,14 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True, null=True)
 
+    flowcharts = models.ManyToManyField("Flowchart", related_name="flowcharts", blank=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []  # No username required
     
 class Flowchart(models.Model):
     name = models.CharField(max_length=50,null=True)
+    description = models.CharField(max_length=100,null=True)
     date_created = models.CharField(max_length=50,null=True)
     data = models.JSONField(default=dict)
 

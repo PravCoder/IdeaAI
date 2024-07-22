@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import api from "../api"
 import { useNavigate } from 'react-router-dom';
 import "../styles/FlowchartList.css";
 
@@ -40,14 +40,5 @@ const FlowchartList = ({ flowcharts }) => {
   );
 };
 
-FlowchartList.propTypes = {
-  flowcharts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string,
-    })
-  ).isRequired,
-};
 
 export default FlowchartList;

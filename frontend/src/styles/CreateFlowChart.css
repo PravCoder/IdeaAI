@@ -1,0 +1,39 @@
+/* Add top padding to account for the fixed navbar */
+.create-flowchart-container {
+    padding: 80px 20px 20px; /* Top padding adjusted based on navbar height */
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .create-flowchart-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .create-flowchart-form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .create-flowchart-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .create-flowchart-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .create-flowchart-form button:hover {
+    background-color: #0056b3;
+  }
+  
