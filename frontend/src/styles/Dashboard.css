@@ -1,0 +1,9 @@
+/* Add top padding to ensure content is not hidden behind the navbar */
+.dashboard {
+    padding-top: 60px; /* Adjust based on the height of your navbar */
+  }
+  
+  h1 {
+    margin: 20px;
+  }
+  

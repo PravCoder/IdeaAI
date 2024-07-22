@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
+from django.contrib.postgres.fields import JSONField 
 
 
 
@@ -14,6 +15,8 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []  # No username required
     
-
-
+class Flowchart(models.Model):
+    name = models.CharField(max_length=50,null=True)
+    date_created = models.CharField(max_length=50,null=True)
+    data = models.JSONField(default=dict)
 

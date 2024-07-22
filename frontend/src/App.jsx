@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Foo from "./pages/Foo";
 import Navbar from "./components/Navbar";
+import Dashboard from "./pages/Dashboard";
+import CreateFlowChart from "./pages/CreateFlowChart";
 
 function Logout() {
   localStorage.clear(); // when we logout we clear our refresh/access tokens
@@ -26,13 +28,16 @@ function App() {
       <Routes>
 
         {/* home-route is protected so you need valid access token to view home-component */} 
-        <Route path="/" element={<ProtectedRoute> <Home /> </ProtectedRoute>}/>
+        <Route path="/" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>}/>
         {/* login-route is not protected because you can visit it any time */} 
         <Route path="/login" element={<Login />}/>
 
         <Route path="/logout" element={<Logout />}/>
 
         <Route path="/register" element={<RegisterAndLogout />}/>
+x
+        <Route path="/create-flowchart" element={<CreateFlowChart />}/>
+
         {/* render 404-page anytime any other path is visited */} 
         <Route path="*" element={<NotFound />}/>
 
