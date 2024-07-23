@@ -7,6 +7,16 @@ from .models import User, Flowchart
 from rest_framework.response import Response
 from datetime import datetime
 
+from dotenv import load_dotenv, find_dotenv
+import os
+load_dotenv()
+from langchain_openai import ChatOpenAI
+from graphviz import Digraph
+from langchain.prompts import PromptTemplate
+import tempfile
+import json
+
+
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -40,9 +50,49 @@ def get_user_flowcharts(request):
 
     return Response({"user_flowcharts":serialized_flowcharts})
 
+@api_view(["POST"])
+def generate_flowchart(request, pk):
+    print("GENRATE FLOWCHART")
+    description = request.data["description"]
+    print(description)
+    flowchart = Flowchart.objects.get(id=int(pk))
+
+    
+    return Response()
 
 
+def get_flowchart_structure(natural_language_description):
+    llm = ChatOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    template = """You are a helpful assistant that converts natural language descriptions into structured flowchart representations.
 
+    Input: {input}
+
+    Output: Provide a structured representation for a flowchart, using JSON format, remember the flowchart is not always linear it might include loops. One key of the JSON-object should be "nodes" which is a array of "id": "1", "label": "Start", the other key of the JSON-object should be "edges" which is an array of "from": "1", "to": "2". 
+    """
+    prompt = PromptTemplate.from_template(template)
+
+    formatted_prompt = prompt.format(input=natural_language_description)
+    response = llm.invoke(formatted_prompt)
+    content = response.content
+    metadata = response.response_metadata# response_metadata={'token_usage': {'completion_tokens': 76, 'prompt_tokens': 11, 'total_tokens': 87}, 'model_name': 'gpt-3.5-turbo-0125', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None} 
+    id = response.id
+    usage_metadata = response.usage_metadata # usage_metadata={'input_tokens': 11, 'output_tokens': 76, 'total_tokens': 87}
+    
+    return content, metadata, id, usage_metadata
+
+
+def create_flowchart(json_data):
+    dot = Digraph()
+
+    for node in json_data['nodes']:
+        dot.node(node['id'], node['label'])
+
+    # Add edges
+    for edge in json_data['edges']:
+        dot.edge(edge['from'], edge['to'])
+
+
+    return dot
 
 
 
