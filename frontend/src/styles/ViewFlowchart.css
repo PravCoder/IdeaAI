@@ -1,0 +1,19 @@
+.view-flowchart {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .flowchart-editor {
+    flex: 1;
+    height: 100%;
+    position: relative;
+  }
+  

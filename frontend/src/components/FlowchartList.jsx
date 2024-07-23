@@ -11,7 +11,7 @@ const FlowchartList = ({ flowcharts }) => {
   };
 
   const handleFlowchartClick = (id) => {
-    navigate(`/flowchart/${id}`);
+    navigate(`/view-flowchart/${id}`);
   };
 
 

@@ -9,6 +9,7 @@ import Foo from "./pages/Foo";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import CreateFlowChart from "./pages/CreateFlowChart";
+import ViewFlowchart from "./pages/ViewFlowchart";
 
 function Logout() {
   localStorage.clear(); // when we logout we clear our refresh/access tokens
@@ -35,8 +36,10 @@ function App() {
         <Route path="/logout" element={<Logout />}/>
 
         <Route path="/register" element={<RegisterAndLogout />}/>
-x
+
         <Route path="/create-flowchart" element={<CreateFlowChart />}/>
+
+        <Route path="/view-flowchart/:id" element={<ViewFlowchart />}/>
 
         {/* render 404-page anytime any other path is visited */} 
         <Route path="*" element={<NotFound />}/>

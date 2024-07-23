@@ -23,3 +23,5 @@ class Flowchart(models.Model):
     date_created = models.CharField(max_length=50,null=True)
     data = models.JSONField(default=dict)
 
+    image = models.ImageField(upload_to='flowcharts/', null=True, blank=True)
+

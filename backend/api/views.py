@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics
 from .serializers import UserSerializer, FlowchartSerializer
@@ -6,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import User, Flowchart
 from rest_framework.response import Response
 from datetime import datetime
+from django.core.files.base import ContentFile
+
 
 from dotenv import load_dotenv, find_dotenv
 import os
@@ -15,7 +18,6 @@ from graphviz import Digraph
 from langchain.prompts import PromptTemplate
 import tempfile
 import json
-
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -52,13 +54,26 @@ def get_user_flowcharts(request):
 
 @api_view(["POST"])
 def generate_flowchart(request, pk):
-    print("GENRATE FLOWCHART")
     description = request.data["description"]
-    print(description)
     flowchart = Flowchart.objects.get(id=int(pk))
 
+    answer, metadata, id, usage_metadata = get_flowchart_structure(description)
     
-    return Response()
+    print(f"QUESTION: {description}")
+    print(f"ANSWER: {answer} + {usage_metadata}")
+
+    json_data = json.loads(answer)
+    dot = create_flowchart(json_data)
+    dot.render('flowchart', format='png', cleanup=True)
+
+   # Save the flowchart as an image
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
+        dot.render(temp_file.name, format='png', cleanup=True)
+        temp_file.seek(0)
+        flowchart.image.save(f'flowchart_{flowchart.id}.png', ContentFile(temp_file.read()), save=True)
+    
+    print(flowchart.image.url)
+    return JsonResponse({'image_url': flowchart.image.url})
 
 
 def get_flowchart_structure(natural_language_description):
@@ -67,7 +82,7 @@ def get_flowchart_structure(natural_language_description):
 
     Input: {input}
 
-    Output: Provide a structured representation for a flowchart, using JSON format, remember the flowchart is not always linear it might include loops. One key of the JSON-object should be "nodes" which is a array of "id": "1", "label": "Start", the other key of the JSON-object should be "edges" which is an array of "from": "1", "to": "2". 
+    Output: Provide a structured representation for a flowchart, using JSON format. One key of the JSON-object should be "nodes" which is a array of "id": "1", "label": "Start", the other key of the JSON-object should be "edges" which is an array of "from": "1", "to": "2". 
     """
     prompt = PromptTemplate.from_template(template)
 

@@ -1,0 +1,5 @@
+digraph {
+	1 [label=Start]
+	2 [label="Neural Network"]
+	1 -> 2
+}

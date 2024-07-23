@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from api.views import CreateUserView
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenObtainPairView  # pre-built views that allow us to obtain access/refresh tokens and to refresh token, use these views to 
 
 urlpatterns = [
@@ -15,3 +18,6 @@ urlpatterns = [
     path("api/", include("api.urls"))
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
