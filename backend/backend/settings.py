@@ -78,10 +78,9 @@ MIDDLEWARE = [
 ]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:5173/']
 
-# # Allow your frontend origin to access the API  OPTIONAL
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",  # Add your frontend's URL
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # React development server
+]
 
 ROOT_URLCONF = 'backend.urls'
 

@@ -25,3 +25,14 @@ class Flowchart(models.Model):
 
     image = models.ImageField(upload_to='flowcharts/', null=True, blank=True)
 
+    # delets old image 
+    def save(self, *args, **kwargs):
+        try:
+            this = Flowchart.objects.get(id=self.id)
+            if this.image != self.image and this.image:  # If the image has changed and the old image exists
+                this.image.delete(save=False)
+        except Flowchart.DoesNotExist:
+            pass  # This is a new object, so the image doesn't need to be deleted
+
+        super(Flowchart, self).save(*args, **kwargs)
+

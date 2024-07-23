@@ -29,6 +29,7 @@ class CreateUserView(generics.CreateAPIView):
 
 @api_view(["POST"])
 def create_flowchart(request):
+    print("CREATING NEW FLOWCHART FOR USER")
     user = request.user
     print(request.data)
     name = request.data["content"]
@@ -64,7 +65,7 @@ def generate_flowchart(request, pk):
     print(f"ANSWER: {answer} + {usage_metadata}")
 
     json_data = json.loads(answer)
-    image_path = create_flowchart(json_data)
+    image_path = create_flowchart_data(json_data)
 
     # Save the flowchart image to the model
     with open(image_path, 'rb') as f:
@@ -94,7 +95,7 @@ def get_flowchart_structure(natural_language_description):
     return content, metadata, id, usage_metadata
 
 
-def create_flowchart(json_data):
+def create_flowchart_data(json_data):
     dot = Digraph()
 
     for node in json_data['nodes']:
