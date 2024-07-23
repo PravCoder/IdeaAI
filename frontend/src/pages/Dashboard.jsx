@@ -5,6 +5,7 @@ import FlowchartList from "../components/FlowchartList";
 
 function Dashboard() {
     const [flowcharts, setFlowcharts] = useState([]);
+    
     useEffect(() => {
         api.get(`/api/get-user-flowcharts/`)
             .then(response => {

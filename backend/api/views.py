@@ -46,7 +46,6 @@ def create_flowchart(request):
 @api_view(["GET"])
 def get_user_flowcharts(request):
     user = request.user
-
     serialized_flowcharts  =[]
     for chart in list(user.flowcharts.all()):
         chart_serializer = FlowchartSerializer(chart)
@@ -118,7 +117,7 @@ def create_flowchart(json_data):
 def get_chart_image_url(request, pk):
     id = int(pk)
     flowchart = Flowchart.objects.get(id=id)
-    print(flowchart.image.url)
+    print(f"\nGET CHART IMAGE URL: {flowchart.image.url}")
     return Response({"image_url": flowchart.image.url})
 
 

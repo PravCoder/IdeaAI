@@ -1,0 +1,23 @@
+.flowchart-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust based on your layout */
+}
+
+.flowchart-image-container {
+    width: 100%;
+    max-width: 800px; /* Adjust based on your desired image size */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.flowchart-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}

@@ -7,22 +7,6 @@ function FlowchartForm({chart_id}) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const [imageURL, setImageURL] = useState("nothing");
-    // var imageURL = "";
-
-    useEffect(() => {
-        api.get(`/api/get-chart-image-url/${chart_id}/`)
-            .then(response => {
-                // imageURL = response.data.image_url
-                setImageURL(imageURL);
-                console.log("URL1: " + response.data.image_url);
-                console.log("URL2: " + imageURL);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }, [chart_id]);
-
     const handleSubmit = (event) => {
         event.preventDefault();
         setLoading(true);
@@ -57,12 +41,12 @@ function FlowchartForm({chart_id}) {
                     {loading ? 'Generating...' : 'Generate Flowchart'}
                 </button>
             </form>
-            {error && <div className="error">{error}</div>}
+            {/* {error && <div className="error">{error}</div>}
             {imageURL && (
                 <div className="flowchart-image-container">
                     <img src={imageURL} alt="Generated Flowchart" />
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
