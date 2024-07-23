@@ -25,5 +25,5 @@ class UserSerializer(serializers.ModelSerializer):
 class FlowchartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flowchart
-        fields = ['id', 'name', 'description', 'date_created']  # Fields to include in the serialized output
+        fields = ['id', 'name', 'description', 'date_created',"image"]  # Fields to include in the serialized output
     

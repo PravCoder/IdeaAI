@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import User, Flowchart
 from rest_framework.response import Response
 from datetime import datetime
+from django.core.files import File
+from django.conf import settings
 from django.core.files.base import ContentFile
 
 
@@ -63,16 +65,13 @@ def generate_flowchart(request, pk):
     print(f"ANSWER: {answer} + {usage_metadata}")
 
     json_data = json.loads(answer)
-    dot = create_flowchart(json_data)
-    dot.render('flowchart', format='png', cleanup=True)
+    image_path = create_flowchart(json_data)
 
-   # Save the flowchart as an image
-    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
-        dot.render(temp_file.name, format='png', cleanup=True)
-        temp_file.seek(0)
-        flowchart.image.save(f'flowchart_{flowchart.id}.png', ContentFile(temp_file.read()), save=True)
+    # Save the flowchart image to the model
+    with open(image_path, 'rb') as f:
+        flowchart.image.save(f'flowchart_{flowchart.id}.png', File(f), save=True)
     
-    print(flowchart.image.url)
+    print(f"URL: {flowchart.image.url}")
     return JsonResponse({'image_url': flowchart.image.url})
 
 
@@ -106,10 +105,21 @@ def create_flowchart(json_data):
     for edge in json_data['edges']:
         dot.edge(edge['from'], edge['to'])
 
+    flowcharts_dir = os.path.join(settings.MEDIA_ROOT, 'flowcharts')
+    image_path = os.path.join(flowcharts_dir, 'flowchart')
+    dot.format = 'png'
+    rendered_image_path = dot.render(image_path, cleanup=True)
+    
 
-    return dot
+    return rendered_image_path
 
 
+@api_view(["GET"])
+def get_chart_image_url(request, pk):
+    id = int(pk)
+    flowchart = Flowchart.objects.get(id=id)
+    print(flowchart.image.url)
+    return Response({"image_url": flowchart.image.url})
 
 
 
