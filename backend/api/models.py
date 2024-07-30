@@ -6,16 +6,23 @@ from datetime import datetime
 from django.contrib.postgres.fields import JSONField 
 
 
-
 class User(AbstractUser):
     first_name = models.CharField(max_length=200, null=True)
     last_name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True, null=True)
 
     flowcharts = models.ManyToManyField("Flowchart", related_name="flowcharts", blank=True)
+    lectures = models.ManyToManyField("Lecture", related_name="lectures", blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []  # No username required
+
+
+class Lecture(models.Model):
+    title = models.CharField(max_length=200, null=True)
+    url = models.URLField(max_length=1000)
+
+
     
 class Flowchart(models.Model):
     name = models.CharField(max_length=50,null=True)

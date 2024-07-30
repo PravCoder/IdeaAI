@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Flowchart
+from .models import User, Flowchart, Lecture
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -26,4 +26,10 @@ class FlowchartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flowchart
         fields = ['id', 'name', 'description', 'date_created',"image"]  # Fields to include in the serialized output
+
+class LectureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lecture
+        fields = ['id', 'title', 'url']  # Fields to include in the serialized output
     
+

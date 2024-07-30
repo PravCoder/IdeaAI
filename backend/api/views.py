@@ -1,10 +1,10 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import UserSerializer, FlowchartSerializer
+from .serializers import UserSerializer, FlowchartSerializer, LectureSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import User, Flowchart
+from .models import User, Flowchart, Lecture
 from rest_framework.response import Response
 from datetime import datetime
 from django.core.files import File
@@ -25,6 +25,27 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+
+@api_view(["POST"])
+def create_lecture_link(request):
+    user = request.user
+    link = request.data["video_link"]
+    lecture = Lecture(title="Test", url=link)
+    lecture.save()
+    user.lectures.add(lecture)
+    user.save()
+    return Response({})
+
+@api_view(["GET"])
+def get_user_lectures(request):
+    user = request.user
+    serialized_lectures  =[]
+    for lecture in list(user.lectures.all()):
+        lecture_serializer = LectureSerializer(lecture)
+        serialized_lectures.append(lecture_serializer.data)
+
+    return Response({"user_lectures":serialized_lectures})
 
 
 @api_view(["POST"])
