@@ -17,7 +17,7 @@ function Dashboard() {
             .catch(error => {
                 console.log(error);
             });
-        }, [lectures])
+        }, [])
 
     return (
         <div className="dashboard">

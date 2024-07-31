@@ -4,6 +4,7 @@ import '../styles/CreateLecture.css';  // Import the CSS for styling
 
 function CreateLecture() {
     const [videoLink, setVideoLink] = useState('');
+    const [lectureName, setlectureName] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -12,7 +13,7 @@ function CreateLecture() {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.post('/api/create-lecture-link/', { video_link: videoLink });
+            const response = await api.post('/api/create-lecture-link/', { video_link: videoLink, lecture_name: lectureName });
             // Handle the response as needed
         } catch (err) {
             setError('An error occurred while processing the video link.');
@@ -25,6 +26,13 @@ function CreateLecture() {
         <div className="dashboard">
           <h2 className="dashboard-title">Paste a link to a video lecture</h2>
           <form className="dashboard-form" onSubmit={handleSubmit}>
+          <input
+              type="text"
+              className="dashboard-input"
+              value={lectureName}
+              onChange={(e) => setlectureName(e.target.value)}
+              placeholder="Enter lecture name"
+            />
             <input
               type="text"
               className="dashboard-input"
@@ -32,6 +40,9 @@ function CreateLecture() {
               onChange={(e) => setVideoLink(e.target.value)}
               placeholder="Enter video link"
             />
+
+            
+
             <button type="submit" className="dashboard-button">Submit</button>
           </form>
         </div>

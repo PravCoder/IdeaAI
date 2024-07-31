@@ -5,7 +5,10 @@ urlpatterns = [
     
     path("create-lecture-link/", views.create_lecture_link, name="create-lecture-link"),
     path("get-user-lectures/", views.get_user_lectures, name="get-user-lectures"),
+    path("get-lecture/<str:pk>/", views.get_lecture, name="get-lecture"),
     
+
+    # Flowchart stuff
     path("create-flowchart/", views.create_flowchart, name="create-flowchart"),
     path("get-user-flowcharts/", views.get_user_flowcharts, name="get-user-flowcharts"),
     path("generate-flowchart/<str:pk>/", views.generate_flowchart, name="get-user-flowcharts"),

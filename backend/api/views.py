@@ -29,9 +29,12 @@ class CreateUserView(generics.CreateAPIView):
 
 @api_view(["POST"])
 def create_lecture_link(request):
+    print(request.data)
     user = request.user
     link = request.data["video_link"]
-    lecture = Lecture(title="Test", url=link)
+    name = request.data["lecture_name"]
+
+    lecture = Lecture(title=name, url=link)
     lecture.save()
     user.lectures.add(lecture)
     user.save()
@@ -47,6 +50,12 @@ def get_user_lectures(request):
 
     return Response({"user_lectures":serialized_lectures})
 
+@api_view(["GET"])
+def get_lecture(request, pk):
+    lecture = Lecture.objects.get(id=int(pk))
+    lecture_serialized = LectureSerializer(lecture)
+    print(f"JSON: {lecture_serialized.data}")  # sending back to client
+    return Response({"lecture":lecture_serialized.data})
 
 @api_view(["POST"])
 def create_flowchart(request):

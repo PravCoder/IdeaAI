@@ -1,0 +1,30 @@
+.lecture-image-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.lecture-thumbnail {
+    max-width: 100%;
+    height: auto;
+    margin-top: 50px;
+    border: 2px solid #333; /* More distinct outline */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s; /* Only animate the shadow */
+}
+
+.lecture-thumbnail:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slight shadow change on hover */
+}
+
+.lecture-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-top: 10px;
+}
+
+.lecture-image-error {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
